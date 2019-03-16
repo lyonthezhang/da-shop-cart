@@ -1,0 +1,24 @@
+/*.pcardtext {
+  font-size: 8px;
+  background-color: pink;
+}*/
+
+.pic {
+  border-radius: 20px;
+  /*margin-top: 10px;*/
+  width: 40%;
+  /*height: 20%;*/
+}
+
+.pcard-container {
+  //background-color: #d6e5ff;
+background-color:blue;
+  font-size: 12pt;
+  padding:30px;
+}
+
+.cardText {
+	background-color: lightblue;
+	font-size: 12px;
+	text-align: center;
+}
