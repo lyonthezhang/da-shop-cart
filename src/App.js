@@ -4,6 +4,7 @@ import './App.css';
 import { render } from 'react-dom';
 import ProductTable from './components/ProductTable.js';
 import MySidebar from './components/Sidebar.js'
+import {Row} from 'reactstrap'
 
 class App extends Component {
 
@@ -31,9 +32,22 @@ class App extends Component {
     let title = item.title
     alert("The " + title + " has been added to your cart")
     let itemlist = this.state.items
-    itemlist.push(item.title)
+    itemlist.push([item.title, item.price])
     this.setState({ items: itemlist});
     this.setState({total: this.state.total + item.price})
+  }
+
+  removeItem(item) {
+    let title = item
+    alert("The " + title + " has been removed from your cart")
+    let itemlist = this.state.items
+    for( var i = 0; i < itemlist.length; i++){ 
+   if ( itemlist[i] === item) {
+     itemlist.splice(i, 1); 
+   }
+}
+    this.setState({ items: itemlist });
+    this.setState({ total: this.state.total - item[1] })
   }
 
   render() {
@@ -51,7 +65,7 @@ class App extends Component {
       <a class="item">
       <i aria-hidden="true">
       </i>{items.map(lol => (
-            <p> {lol} </p>))}
+            <Row>{lol[0]}: ${lol[1]}<button onClick={() => this.removeItem(lol)}>X</button></Row>))}
       </a>
       <a class="item">
       <i aria-hidden="true" class="money icon">
