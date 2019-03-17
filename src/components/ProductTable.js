@@ -8,8 +8,9 @@ class ProductTable extends Component {
     return (
       <div className="flex-container">
         {productList.map(product => (
-            <ProductCard item ={product} key={product.id} />))}
+            <ProductCard item ={product} key={product.id} addItem={this.props.addItem}/>))}
       </div>
+
     );
   }
 }

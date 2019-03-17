@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './ProductCard.css'
 
 class ProductCard extends Component {
+
+
   render() {
     const { item } = this.props;
     return (
@@ -11,7 +13,7 @@ class ProductCard extends Component {
               {item.title} <br/>
               Price: ${item.price}
 			</div>
-            <button> Add to Cart</button>
+            <button onClick={() => {this.props.addItem(item)}}> Add to Cart</button>
         </div>
       )
   }
