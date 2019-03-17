@@ -6,6 +6,7 @@ class ProductCard extends Component {
 
   render() {
     const { item } = this.props;
+	const { availableSizes } = item.availableSizes
     return (
        <div>
             <img className="pic" src={require('../static/products/' + item.sku + '_1.jpg')}/>
@@ -13,7 +14,8 @@ class ProductCard extends Component {
               {item.title} <br/>
               Price: ${item.price}
 			</div>
-            <button onClick={() => {this.props.addItem(item)}}> Add to Cart</button>
+			{item.availableSizes.map(product => (
+            <button onClick={() => {this.props.addItem(item,product)}}> {product} </button>))}
         </div>
       )
   }

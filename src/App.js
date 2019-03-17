@@ -15,6 +15,7 @@ class App extends Component {
       products: [],
       total: 0,
       items: [],
+      count: 0,
     };
   }
 
@@ -28,13 +29,14 @@ class App extends Component {
       });
   }
 
-  addItem(item) {
+  addItem(item,size) {
     let title = item.title
     alert("The " + title + " has been added to your cart")
     let itemlist = this.state.items
-    itemlist.push([item.title, item.price])
+    itemlist.push([item.title, item.price, size])
     this.setState({ items: itemlist});
     this.setState({total: this.state.total + item.price})
+    this.setState({count: this.state.count + 1})
   }
 
   removeItem(item) {
@@ -48,6 +50,7 @@ class App extends Component {
 }
     this.setState({ items: itemlist });
     this.setState({ total: this.state.total - item[1] })
+    this.setState({count: this.state.count - 1})
   }
 
   render() {
@@ -65,11 +68,11 @@ class App extends Component {
       <a class="item">
       <i aria-hidden="true">
       </i>{items.map(lol => (
-            <Row>{lol[0]}: ${lol[1]}<button onClick={() => this.removeItem(lol)}>X</button></Row>))}
+            <Row>{lol[0]} {lol[2]}: ${lol[1]}<button onClick={() => this.removeItem(lol)}>X</button></Row>))}
       </a>
       <a class="item">
       <i aria-hidden="true" class="money icon">
-      </i>Total: ${this.state.total}</a>
+      </i><div>Total: ${Number.parseFloat(this.state.total).toFixed(2)}</div><div>Quantity: {this.state.count}</div></a>
       </div>
 
       </div>
