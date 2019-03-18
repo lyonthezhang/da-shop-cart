@@ -5,6 +5,22 @@ import { render } from 'react-dom';
 import ProductTable from './components/ProductTable.js';
 import MySidebar from './components/Sidebar.js'
 import {Row, Col} from 'reactstrap'
+import ProfileCard from './components/ProfileCard.js'
+
+import firebase from "firebase";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+
+firebase.initializeApp({
+  apiKey: "AIzaSyAySQlAkE-Q7mvHk4eiXY2Gi24v3ZGWpCw",
+  authDomain: "shopcart-40648.firebaseapp.com",
+});
+
+// firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+//   // Handle Errors here.
+//   var errorCode = error.code;
+//   var errorMessage = error.message;
+//   // ...
+//   });
 
 class App extends Component {
 
@@ -17,11 +33,24 @@ class App extends Component {
       items: [],
       count: 0,
       myfilter: ["XS","S","M","ML","L","X","XL","XXL"],
-      sizes: ["XS","S","M","ML","L","X","XL","XXL"]
+      sizes: ["XS","S","M","ML","L","X","XL","XXL"],
+      isSignedIn: false,
     };
+    this.uiConfig = {
+    signInFlow: "popup",
+    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    callbacks: {
+      signInSuccess: () => false
+    }
+  };
   }
 
+
+
   componentDidMount() {
+  firebase.auth().onAuthStateChanged(user => {
+      this.setState({ isSignedIn: !!user });
+    });
     import("./static/data/products.json")
       .then(json => {
         this.setState({ products: json.products });
@@ -106,6 +135,27 @@ else {
     const { myfilter } = this.state;
     return (
       <div>
+      <div className="four wide column ">
+            {this.state.isSignedIn ? (
+              <div className="profile">
+                <ProfileCard
+                  url={firebase.auth().currentUser.photoURL}
+                  userName={firebase.auth().currentUser.displayName}
+                />
+                <button
+                  class=" ui inverted red button mini log-out"
+                  onClick={() => firebase.auth().signOut()}
+                >
+                  Sign out
+                </button>
+              </div>
+            ) : (
+              <StyledFirebaseAuth
+                uiConfig={this.uiConfig}
+                firebaseAuth={firebase.auth()}
+              />
+            )}
+          </div>
         <div className='title'> LYON'S VERY HUMBLE CART </div>
         <div className='title'> filter by size:
         <button onClick={() => this.addFilter("XS")} style = {{backgroundColor: this.checkFilter("XS")}}>XS</button>
